@@ -42,8 +42,9 @@ class singleList{
                 Node* tmp=&head;
                 for(int i=0;i<pos;i++)
                     tmp=tmp->next;
+                Node* t=tmp->next;
                 tmp->next=tmp->next->next;
-                delete tmp->next;
+                delete t;
             }
         }
         void del(){
@@ -51,8 +52,9 @@ class singleList{
             for(int i=0;i<head.data;i++){
                 tmp=tmp->next;
             }
+            Node* t=tmp->next;
             tmp->next=tmp->next->next;
-            delete tmp->next;
+            delete t;
         }
         void print(){
             Node* tmp=head.next;
@@ -92,6 +94,7 @@ int main()
     a.insert(5);
     a.insert(3);
     a.insert(2,0);
+    a.del(2);
     a.print();
     return 0;
 }
