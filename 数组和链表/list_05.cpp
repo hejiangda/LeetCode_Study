@@ -5,110 +5,79 @@
 
 using namespace std;
 
-class singleList{
-    public:
-    struct Node{
-            int data;
-            Node* next;
-            Node()
-            {
-                data=0;
-                next=nullptr;
-            }
-            Node(int x)
-            {
-                data=x;
-                next=nullptr;
-            }
-            Node(int x,Node* n){
-                data=x;
-                next=n;
-            }
-        };
-        Node head;    
-        int size()
-        {
-            return head.data;
-        }
-        void insert(int x,int pos){
-            if(pos<0||pos>head.data)
-            {
-                cout<<"error! pos out of range"<<endl;
-            }
-            else{
-                Node* tmp=&head;
-                for(int i=0;i<pos;i++){
-                    tmp=tmp->next;
-                }    
-                tmp->next=new Node(x,tmp->next);
-                head.data++;
-            }
-        }
-        void insert(int x){
-            Node* tmp=&head;
-            while(tmp->next!=nullptr){
-                tmp=tmp->next;
-            }
-            tmp->next=new Node(x);
-            head.data++;
-        }
-        void del(int pos){
-             if(pos<0||pos>=head.data)
-            {
-                cout<<"error! pos out of range"<<endl;
-            }
-            else{
-                Node* tmp=&head;
-                for(int i=0;i<pos;i++)
-                    tmp=tmp->next;
-                Node* t=tmp->next;
-                tmp->next=tmp->next->next;
-                delete t;
-            }
-        }
-        void del(){
-            Node* tmp=&head;
-            for(int i=0;i<head.data;i++){
-                tmp=tmp->next;
-            }
-            Node* t=tmp->next;
-            tmp->next=tmp->next->next;
-            delete t;
-        }
-        void print(){
-            Node* tmp=head.next;
-            int count=0;
-            while(tmp){
-                cout<<"["<<count++<<"]="<<tmp->data<<endl;
-                tmp=tmp->next;
-            }
-            cout<<"print finished"<<endl;
-        }
-        int operator [](int index){
-            if(index<0 or index>=head.data){
-                cout<<"error! index out of range"<<endl;
-                return -1;
-            }  
-            else{
-                Node* p=head.next;
-                for(int i=0;i<=index;i++){
-                    p=p->next;
-                }
-                return p->data;
-            }
-
-        }
-        void merge(singleList b){
-            for(int i=0;i<b.size();i++){
-                
-            }
-        }
-        Node * next(){
-
-        }
-        
+struct Node{
+    int data;
+    Node* next;
 };
+
+
 int main(){
+    Node * l1,*l2;
+    l1=new Node;
+    l1->data=1;
+    Node* tmp;
+    tmp=l1;
+    for(int i=3;i<10;i+=2){
+        tmp->next=new Node;
+        tmp=tmp->next;
+        tmp->data=i;
+        tmp->next=nullptr;
+    }
+    
+    l2=new Node;
+    l2->data=0;
+    tmp=l2;
+    for(int i=2;i<10;i+=2){
+        tmp->next=new Node;
+        tmp=tmp->next;
+        tmp->data=i;
+        tmp->next=nullptr;
+    }
+    tmp=l1;
+    cout<<"l1:";
+    while(tmp){
+        cout<<" "<<tmp->data;
+        tmp=tmp->next;
+    }
+    cout<<endl;
+    tmp=l2;
+    cout<<"l2:";
+    while(tmp){
+        cout<<" "<<tmp->data;
+        tmp=tmp->next;
+    }
+    cout<<endl;
+
+    Node* p1,*p2;
+    p1=l1;
+    p2=l2;
+
+    Node* list;
+    list=new Node;
+    list->next=nullptr;
+    tmp=list;
+    while(p1!=nullptr&&p2!=nullptr){
+        if(p1->data<p2->data){
+            tmp->next=p1;
+            p1=p1->next;
+        }else{
+            tmp->next=p2;
+            p2=p2->next;
+        }
+        tmp=tmp->next;
+    }
+    if(p1){
+        tmp->next=p1;
+    }else tmp->next=p2;
+    
+    tmp=list->next;
+    cout<<"list:";
+    while(tmp){
+        cout<<" "<<tmp->data;
+        tmp=tmp->next;
+    }
+
+
 
     return 0;
 }
