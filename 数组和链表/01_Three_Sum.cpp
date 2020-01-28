@@ -1,106 +1,53 @@
 #include <bits/stdc++.h>
 using namespace std;
+// 双指针法
+
 class Solution {
 public:
-    // void three(vector<int>& nums,set<vector<int>>& ret,int& i,int& j){
-    //     if(i<j){
-    //         int sum2=nums[i]+nums[j];
-    //         if(sum2<0){
-    //             for(int k=j-1;k>i and nums[k]>=0;k--){
-    //                 if(sum2+nums[k]==0){
-    //                     ret.insert(vector<int>{nums[i],nums[k],nums[j]});
-    //                     break;
-    //                 }
-    //                 else if(sum2+nums[k]<0){
-    //                     break;
-    //                 }
-    //             }
-    //             int ii1=i+1;
-    //             int jj1=j;
-    //             int ii2=i;
-    //             int jj2=j-1;
-    //             three(nums,ret,ii1,jj1);
-    //             three(nums,ret,ii2,jj2);
-    //             i++;
-    //         }
-    //         else if(sum2>0){
-    //             for(int k=i+1;k<j and nums[k]<=0;k++){
-    //                 if(sum2+nums[k]==0){
-    //                     ret.insert(vector<int>{nums[i],nums[k],nums[j]});
-    //                     break;
-    //                 }
-    //                 else if(sum2+nums[k]>0){
-    //                     break;
-    //                 }
-    //             }
-    //             int ii1=i+1;
-    //             int jj1=j;
-    //             int ii2=i;
-    //             int jj2=j-1;
-    //             three(nums,ret,ii1,jj1);
-    //             three(nums,ret,ii2,jj2);
-    //             j--;
-    //         }
-    //         else if(sum2==0){
-    //             int k=i+1;
-    //             int ii1=i+1;
-    //             int jj1=j;
-    //             int ii2=i;
-    //             int jj2=j-1;
-    //             for(;k<j and nums[k]<=0;k++){
-    //                 if(sum2+nums[k]==0){
-    //                     ret.insert(vector<int>{nums[i],nums[k],nums[j]});
-                        
-    //                     break;
-    //                 }
-    //             }
-    //             i++;       
-    //             j--;
-    //             three(nums,ret,ii1,jj1);
-    //             three(nums,ret,ii2,jj2);
-    //         }
-    //     }
-    // }
-    unordered_set<int> st;
-
-    void three(vector<int>& nums,set<vector<int>>& ret,int& i,int& j){
-        int sum2=nums[i]+nums[j];
-        if(st.find(-sum2)!=st.end()){
-            ret.insert(vector<int>{nums[i],-sum2,nums[j]});
-        }else if()
-    }
     vector<vector<int>> threeSum(vector<int>& nums) {
         sort(nums.begin(),nums.end());
-        int i=0,j=nums.size()-1;
+        int n=nums.size();
         vector<vector<int>> ret;
-        if(nums.size()<3){
-            return ret;
-        }
-        set<vector<int>> r;
-        for(int x:nums){
-            st.insert(x);
-        }
-        while(i<j){
-            three(nums,r,i,j);   
-        }
-        for(vector<int> x:r){
-            ret.push_back(x);
+        if(n<3)return ret;
+        for(int l=0;l<n;l++){
+            if(nums[l]>0)return ret;
+            if(l>0 and nums[l]==nums[l-1])
+                continue;
+            int m=l+1;
+            int r=n-1;
+            while(m<r){
+                int sum=nums[l]+nums[m]+nums[r];
+                if(sum<0){
+                    m++;
+                }
+                else if(sum==0){
+                    ret.push_back(vector<int>{nums[l],nums[m],nums[r]});
+                    while(r>0 and nums[r]==nums[r-1])
+                        r--;
+                    r--;
+                    while(m<n-1 and nums[m]==nums[m+1])
+                        m++;
+                    m++;
+                }
+                else {
+                    r--;
+                }
+            
+            }
         }
         return ret;
     }
-
-
 };
 
 /**
- * [-4 -1 -1 0 1 2 4]
+ * [-4 -1 -1 0 1 2 ]
  *   -2,0,1,1,2
  * -4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6
- * 
- * 
+ * [-2,0,3,-1,4,0,3,4,1,1,1,-3,-5,4,0]
+ * -1,-2,-3,4,1,3,0,3,-2,1,-2,2,-1,1,-5,4,-3
  * */
 int main(){
-    vector<int> example{-1,-2,-3,4,1,3,0,3,-2,1,-2,2,-1,1,-5,4,-3};
+    vector<int> example{-2,0,3,-1,4,0,3,4,1,1,1,-3,-5,4,0};
     vector<vector<int>> result;
     Solution s;
     result=s.threeSum(example);
