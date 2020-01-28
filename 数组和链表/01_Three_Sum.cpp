@@ -65,7 +65,9 @@ public:
 
     void three(vector<int>& nums,set<vector<int>>& ret,int& i,int& j){
         int sum2=nums[i]+nums[j];
-        
+        if(st.find(-sum2)!=st.end()){
+            ret.insert(vector<int>{nums[i],-sum2,nums[j]});
+        }else if()
     }
     vector<vector<int>> threeSum(vector<int>& nums) {
         sort(nums.begin(),nums.end());
