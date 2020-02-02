@@ -2,9 +2,7 @@
 #include<bits/stdc++.h>
 
 using namespace std;
-class Tree{
-public:
-    struct Node{
+struct Node{
         int data;
         Node* left;
         Node* right;
@@ -14,6 +12,8 @@ public:
             right=nullptr;
         }
     };
+class Tree{
+public:
     Tree(){
         T=nullptr;
     }
@@ -71,6 +71,18 @@ public:
         else 
             del(x,p->right);
     }
+    Node* find(int x){
+        return find(x,T);
+    }
+    Node* find(int x,Node* p){
+        if(p==nullptr)
+            return nullptr;
+        if(p->data==x)
+            return p;
+        if(p->data>x)
+            return find(x,p->left);
+        else return find(x,p->right);
+    }
 private:
     Node* T;
 };
@@ -80,5 +92,7 @@ int main(){
     bst.inorderTravel();
     bst.del(5).del(1);
     bst.inorderTravel();
+    cout<<bst.find(2)<<endl;
+    cout<<bst.find(10)<<endl;
     return 0;
 }
