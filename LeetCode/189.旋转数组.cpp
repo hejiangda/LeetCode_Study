@@ -9,12 +9,12 @@ using namespace std;
 class Solution {
 public:
     void rotate(vector<int>& nums, int k) {
-        for (int i = 0;i < k; i++) {
-            int tmp=nums[nums.size()-1];
-            for(int j = nums.size()-1; j >0; j--) {
-                nums[j]=nums[j-1];
-            }
-            nums[0]=tmp;
+        vector<int> tmp(nums.size());
+        for(int i=0;i<nums.size();i++){
+            tmp[(i+k)%nums.size()]=nums[i];
+        }
+        for(int i=0;i<nums.size();i++){
+            nums[i]=tmp[i];
         }
     }
 };
