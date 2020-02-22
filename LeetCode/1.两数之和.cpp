@@ -10,38 +10,19 @@ class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
         map<int,int> mp;
-        for(int x:nums) {
-            mp[x]++;
-        }
-        vector<int> ret;
         for(int i=0;i<nums.size();i++) {
-            if(mp.find(target-nums[i])!=mp.end() ) {
-                if(target-nums[i] == nums[i] and mp[nums[i]]>1) {
-                    ret.push_back(i);
-                    for(int j=i+1;j<nums.size();j++) {
-                        if(nums[j] == target-nums[i]) {
-                            ret.push_back(j);
-                            return ret;
-                        }
-                    }
-                }else if(target-nums[i] != nums[i]){
-                    
-                    ret.push_back(i);
-                    for(int j=0;j<nums.size();j++) {
-                        if(nums[j] == target-nums[i]) {
-                            ret.push_back(j);
-                            return ret;
-                        }
-                    }
-                }
+            if(mp.find(target-nums[i])!=mp.end()){
+                return {mp[target-nums[i]],i};
             }
+            mp[nums[i]]=i;
         }
-        return ret;
+        return {};
     }
     // 1. 暴力法，两重循环
     // 2. 排序后双指针
     // 3. 哈希表法
     // a+b=target a=target-b
+    // 4. 一遍哈希法，在遍历的同时查看该节点之前的结点有没有在哈希表中
 };
 // @lc code=end
 
