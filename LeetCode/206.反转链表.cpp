@@ -22,19 +22,15 @@ using namespace std;
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {      
-        if(head==nullptr)return nullptr;
-
-        ListNode* last,*curr,*tmp,*h;
-        last=nullptr;
-        
+        if(head==nullptr or head->next==nullptr)return head;
+        ListNode* last=nullptr,*curr;
         for(curr=head;curr!=nullptr;) {
-            tmp=curr->next;
+            ListNode* tmp=curr->next;
             curr->next=last;
             last=curr;
-            h=curr;
             curr=tmp;
         }
-        return h;
+        return last;
     }
     // 1. 暴力法，依次遍历找到每个结点把他们一个一个串起来，n^2
     // 2. 迭代法：三指针，一个指向当前结点，一个指向前一个结点，一个保存后一个结点的值，
