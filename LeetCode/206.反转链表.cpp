@@ -21,24 +21,25 @@ using namespace std;
 //   };
 class Solution {
 public:
-    ListNode* h;
-    ListNode* reverseL(ListNode* head) {
-        if(head->next) {
-            reverseL(head->next)->next=head;
-        }else {
-            h=head;
-        }
-        return head;
-    }
     ListNode* reverseList(ListNode* head) {      
-        if(head==nullptr)return nullptr;  
-        reverseL(head)->next=nullptr;
+        if(head==nullptr)return nullptr;
+
+        ListNode* last,*curr,*tmp,*h;
+        last=nullptr;
+        
+        for(curr=head;curr!=nullptr;) {
+            tmp=curr->next;
+            curr->next=last;
+            last=curr;
+            h=curr;
+            curr=tmp;
+        }
         return h;
     }
     // 1. 暴力法，依次遍历找到每个结点把他们一个一个串起来，n^2
-    // 2. 三指针，一个指向当前结点，一个指向前一个结点，一个保存后一个结点的值，
+    // 2. 迭代法：三指针，一个指向当前结点，一个指向前一个结点，一个保存后一个结点的值，
     // 依次把当前结点的下一个结点指向前一个结点
-    // 3. 记忆化递归解决
+    // 3. 记忆化递归
 };
 // @lc code=end
 
