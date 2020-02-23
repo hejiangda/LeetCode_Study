@@ -9,41 +9,31 @@ using namespace std;
 class MinStack {
 public:
     /** initialize your data structure here. */
-    deque<int> st;
-    int minNum;
+    deque<long long> st;
+    long long minNum;
     MinStack() {
 
     }
     
     void push(int x) {
         if(st.empty()) {
-            st.push_back(x);
             minNum=x;
-        }else {
-            if(minNum<x)
-                st.push_back(x);
-            else {
-                st.push_back(minNum);
-                st.push_back(x);
-                minNum=x;
-            }
         }
+        st.push_back(x-minNum);
+        if(x-minNum<0)minNum=x;
     }
     
     void pop() {
-        if(st.back()==minNum) {
-            st.pop_back();
-            if(!st.empty()){
-                minNum=st.back();
-                st.pop_back();
-            }
-        }else {
-            st.pop_back();
+        if(st.back()<0) {
+            minNum=minNum-st.back();
         }
+        st.pop_back();
     }
     
     int top() {
-        return st.back();
+        if(st.back()>0)
+            return st.back()+minNum;
+        else return minNum;
     }
     
     int getMin() {
