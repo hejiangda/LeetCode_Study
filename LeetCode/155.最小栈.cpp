@@ -10,22 +10,36 @@ class MinStack {
 public:
     /** initialize your data structure here. */
     deque<int> st;
-    deque<int> stMin;
+    int minNum;
     MinStack() {
 
     }
     
     void push(int x) {
-        st.push_back(x);
-        if(stMin.size()>0) {
-            stMin.push_back(stMin.back()<x?stMin.back():x);
-        }else stMin.push_back(x);
-
+        if(st.empty()) {
+            st.push_back(x);
+            minNum=x;
+        }else {
+            if(minNum<x)
+                st.push_back(x);
+            else {
+                st.push_back(minNum);
+                st.push_back(x);
+                minNum=x;
+            }
+        }
     }
     
     void pop() {
-        st.pop_back();
-        stMin.pop_back();
+        if(st.back()==minNum) {
+            st.pop_back();
+            if(!st.empty()){
+                minNum=st.back();
+                st.pop_back();
+            }
+        }else {
+            st.pop_back();
+        }
     }
     
     int top() {
@@ -33,8 +47,13 @@ public:
     }
     
     int getMin() {
-        return stMin.back();
+        return minNum;
     }
+    // 1. 双栈，一个保存最小元素，一个保存数据
+    // 2. 用一个变量保存最小结点，若获得了比当前最小元素还小的值，把当前最小的压栈然后再把最小值压栈
+    // 出栈时，若出的是最小元素，则最小元素的下一个元素也出栈给最小值
+    // 3. 入栈时保存该元素与最小值之差，如果更小则负数入栈，出栈时两者相加，若为负数则更新最小值
+    // 4. 修改栈结构，每次入栈时同时包含最小值
 };
 
 /**
