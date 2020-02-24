@@ -10,22 +10,18 @@ using namespace std;
 class Solution {
 public:
     int trap(vector<int>& height) {
+        deque<int> st;
         if(height.size()<=0)return 0;
-        int left[height.size()];
-        int right[height.size()];
-        int maxn=0;
-        for(int i=0;i<height.size();i++) {
-            if(height[i]>maxn)maxn=height[i];
-            left[i]=maxn;
-        }
-        maxn=0;
-        for(int i=height.size()-1;i>=0;i--) {
-            if(height[i]>maxn)maxn=height[i];
-            right[i]=maxn;
-        }
         int area=0;
         for(int i=0;i<height.size();i++) {
-            area+=min(left[i],right[i])-height[i];
+            while(!st.empty() and height[st.back()]<height[i]) {
+                int top=st.back();
+                st.pop_back();
+                if(st.empty())break;
+                int len=i-1-st.back();
+                area+=(min(height[i],height[st.back()])-height[top])*len;
+            }
+            st.push_back(i);
         }
         return area;
     }
