@@ -10,20 +10,20 @@ using namespace std;
 class Solution {
 public:
     int trap(vector<int>& height) {
-        deque<int> st;
-        if(height.size()<=0)return 0;
-        int area=0;
-        for(int i=0;i<height.size();i++) {
-            while(!st.empty() and height[st.back()]<height[i]) {
-                int top=st.back();
-                st.pop_back();
-                if(st.empty())break;
-                int len=i-1-st.back();
-                area+=(min(height[i],height[st.back()])-height[top])*len;
+        int left=0,right=height.size()-1;
+        int ans=0;
+        int left_max=0,right_max=0;
+        while(left<right) {
+            if(height[left]<height[right]) {
+                height[left]>=left_max?(left_max=height[left]) :ans+=(left_max-height[left]);
+                ++left;
             }
-            st.push_back(i);
+            else {
+                height[right]>=right_max?(right_max=height[right]) :ans+=(right_max-height[right]);
+                --right;
+            }
         }
-        return area;
+        return ans;
     }
 };
 // 1. 暴力法：对于每个条分别遍历其左右找到比它大的边界，如果没有说明它无法积水，找到后用左右边界最小值减去条的高度就是它积水量
