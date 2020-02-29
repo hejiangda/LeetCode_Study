@@ -9,22 +9,26 @@ using namespace std;
 class Solution {
 public:
     int longestValidParentheses(string s) {
-        deque<int> st;
-        st.push_back(-1);
+        int left=0,right=0;
         int num=0;
         for(int i=0;i<s.size();i++) {
-            if(s[i]==')') {
-                if(!st.empty()) {
-                    st.pop_back();
-                    if(!st.empty()){
-                        int topNum=st.back();
-                        num=max(num,i-topNum);
-                    }else {
-                        st.push_back(i);   
-                    }
-                }
+            if(s[i]=='(')left++;
+            else if(s[i]==')')right++;
+            if(left<right){
+                left=right=0;
+            }else if(left==right) {
+                num=max(num,left+left);
             }
-            else st.push_back(i);
+        }
+        left=right=0;
+        for(int i=s.size()-1;i>=0;i--) {
+            if(s[i]=='(')left++;
+            else if(s[i]==')')right++;
+            if(left>right){
+                left=right=0;
+            }else if(left==right) {
+                num=max(num,left+left);
+            }
         }
         return num;
     }
