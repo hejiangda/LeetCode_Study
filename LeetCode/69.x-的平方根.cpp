@@ -3,15 +3,21 @@
  *
  * [69] x 的平方根
  */
-
+#include <bits/stdc++.h>
+using namespace std;
 // @lc code=start
 class Solution {
 public:
     int mySqrt(int x) {
         if(x<2)return x;
-        long long  left=mySqrt(x>>2)<<1;
-        long long  right=left+1;
-        return right*right>x?left:right;
+        double x0=x;
+        double x1=(x0+x/x0)/2.0;
+        while(abs(x0-x1)>=1){
+            x0=x1;
+            x1=(x0+x/x0)/2.0;
+        }
+            
+        return (int)x1;
     }
     // 1. 二分法，在区间内查找mid**2=x
     // 2.递归，mySqrt(x)=2*mySqrt(x/4)
