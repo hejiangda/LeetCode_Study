@@ -24,37 +24,56 @@ struct TreeNode {
 
 class Solution {
 public:
+    deque<TreeNode *> st1;
+    deque<TreeNode *> st2;
+    bool flg1=false;
+    bool flg2=false;
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if(p==q)return p;
-        if(root==nullptr)return nullptr;
-        bool left=hasNode(root->left,p,q);
-        bool right=hasNode(root->right,p,q);
-        // cout<<left<<" "<<right<<" "<<root->val<<endl;
-        if(left and right) return root;
-        if(left and (p==root or q==root)) {
-            return root;
+        dfs1(root,p);
+        dfs2(root,q);
+        // for(auto &x:st1) {
+        //     cout<<x->val<<" ";
+        // }
+        // cout<<endl;
+        // for(auto &x:st2) {
+        //     cout<<x->val<<" ";
+        // }
+        // cout<<endl;
+        TreeNode* ret=root;
+        while(!st1.empty() and !st2.empty() and st1.front()==st2.front()) {
+            ret=st1.front();
+            st1.pop_front();
+            st2.pop_front();
         }
-        if(right and (p==root or q==root)) {
-            return root;
-        }
-        if(left) {
-            return lowestCommonAncestor(root->left,p,q);
-        }
-        
-        return lowestCommonAncestor(root->right,p,q);
-        
+        return ret;
     }
-    bool hasNode(TreeNode *root,TreeNode* p,TreeNode* q) {
-        if(root==nullptr)return false;
-        bool left=false,right=false;
-        if(root==p or root==q)return true;
-        if(root->left) {
-            left=hasNode(root->left,p,q);
+    void dfs1(TreeNode* root,TreeNode* p) {
+        if(flg1==true)return;
+        if(root==nullptr)return;
+        if(root==p){
+            flg1=true;
+            st1.push_back(root);
+            return;
         }
-        if(root->right) {
-            right=hasNode(root->right,p,q);
+        st1.push_back(root);
+        if(root->left)dfs1(root->left,p);
+        if(root->right)dfs1(root->right,p);
+        if(flg1==false)
+        st1.pop_back();
+    }
+    void dfs2(TreeNode* root,TreeNode* p) {
+        if(flg2==true)return;
+        if(root==nullptr)return;
+        if(root==p){
+            flg2=true;
+            st2.push_back(root);
+            return;
         }
-        return left or right;
+        st2.push_back(root);
+        if(root->left)dfs2(root->left,p);
+        if(root->right)dfs2(root->right,p);
+        if(flg2==false)
+        st2.pop_back();
     }
     // 1.后序遍历，用栈保存结点，之后两个结点的栈分别对比
     // 2.分治法：如果pqroot相等说明他们最近的祖先就是自己，之后判断左右子树，
