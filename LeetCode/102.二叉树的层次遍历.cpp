@@ -3,7 +3,14 @@
  *
  * [102] 二叉树的层次遍历
  */
-
+#include <bits/stdc++.h>
+using namespace std;
+  struct TreeNode {
+      int val;
+      TreeNode *left;
+      TreeNode *right;
+      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+  };
 // @lc code=start
 /**
  * Definition for a binary tree node.
@@ -16,17 +23,15 @@
  */
 class Solution {
 public:
-    map<int,vector<int>> ret;
+    vector<vector<int>> ret;
     vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>> result;
         dfs(root,0);
-        for(auto x:ret) {
-            result.push_back(x.second);
-        }
-        return result;
+        
+        return ret;
     }
     void dfs(TreeNode* root, int level) {
         if(root==nullptr)return ;
+        if(ret.size()<=level)ret.push_back({});
         ret[level].push_back(root->val);
         if(root->left)dfs(root->left,level+1);
         if(root->right)dfs(root->right,level+1);
